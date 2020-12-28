@@ -1,25 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import LoginPromt from "./components/LoginPromt";
+import useGlobalStore from "./store/global";
+import shallow from "zustand/shallow";
+import "./assets/scss/styles.scss";
 
 function App() {
+  const [userInfo, authenticated] = useGlobalStore(
+    (store) => [store.userInfo, store.authenticated],
+    shallow
+  );
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="photo-wall-app">
+        <header>
+          {userInfo.username && <p>Username: {userInfo.username}</p>}
+        </header>
+        {!authenticated && <LoginPromt />}
+      </div>
+    </>
   );
 }
 
